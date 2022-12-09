@@ -1,0 +1,192 @@
+// === BASICS ===
+
+let firstName: string = "Boris"
+let age: number = 30;
+let isHandsome: boolean = true;
+let whatTheFutureHolds : undefined = undefined;
+let nothing : null = null;
+
+// === `TYPE INFERENCE`: typescript can realize what type is that variable if we give it a specific value ================
+// you can check that just by hovering a variable without any type notation, ex:
+
+let testing = "testing" //when hovered: string
+let five = 5 //when hovered: number
+let isBoolean = true //when hovered: boolean
+let whatIsThis //when hovered: any because it has no type nor initial starter value
+
+// === ANY TYPE = it basically transforms typescript into javascript - we shouldnt use it but you can =================
+// any is a escape patch
+
+// let chameleon: any = 5;
+// chameleon = "hello";
+// chameleon = true;
+// chameleon = [1,2]
+
+// chameleon.toUpperCase(); //this doesnt show an error because of the type any
+
+// ========= UNKNOWN TYPE = still can reasign as in any BUT it gets a bit more strict if you want to invoke a method ==================
+// that doesnt work
+let chameleon2: unknown = 5;
+console.log(typeof chameleon2) // "number"
+
+//========= TYPE GUARD: protecting against us doing certain things, it checks that we have the correct type ==================
+chameleon2 = "Bobby"
+if (typeof chameleon2 === "string"){
+    console.log(chameleon2.toUpperCase()) //this will send "BOBBY" all in uppercase
+}
+
+
+// ========= ARRAY TYPE DECLARATION  =============================================
+const empty = [] //by Type Inference when you hover, it says any[]
+const hello = ["Hello"] //Type Inference => string[]
+
+const foods: string[] = ["Banana"]
+const numbers: number[] = [1,2,3,4,5,6]
+
+// so we can do the following with the hello array:
+hello.push("World");
+
+//but we cant do this ==> hello.push(5); because 5 is a number and is not assignable on that Array
+
+//========= OBJECT TYPE DECLARATION ======================================================
+//const plumber : object ==> can be used but is basically putting the :any type
+const plumber:{ name:string, skill:string, likesMushrooms:boolean } = {
+    name:"Mario",
+    skill:"Jumping",
+    likesMushrooms:true
+}
+
+
+// ========= TYPE LITERALS ======================================================
+let isSmart = true; //if hovered it says isSmart: boolean ==> this is because of being let it can change
+const isHandsome = true; //if hovered it says isHandsome: true ==> this is because being const it cant change
+
+let weight = 200; //same thing weight: number ==> this can change
+weight = 110;
+const height = 100; // height: 100 ==> this cannot change
+
+// ========= TYPE LITERALS AND OBJECTS: ======================================================
+
+//EXAMPLE 1: 
+const plumber:{ name:string, skill:string, likesMushrooms:boolean } = {
+    name:"Mario",
+    skill:"Jumping",
+    likesMushrooms:true
+}
+
+plumber.name = "Wario";
+plumber.skill = "Running";
+plumber.likesMushrooms = false;
+// you can change any property inside the object
+
+//EXAMPLE 2:
+const plumber2:{ name:string, skill:string, likesMushrooms:true } = {
+    name:"Mario",
+    skill:"Jumping",
+    likesMushrooms:true
+}
+
+plumber2.name = "Wario";
+plumber2.skill = "Running";
+plumber2.likesMushrooms = false;
+// you cannot change likesMushrooms property because inside the type declaration you said that it MUST be always true 
+
+
+// ========= OPTIONAL PROPERTIES: ======================================================
+let character: {
+    name:string; //this can have ; because you are declaring types instead of properties/values
+    skill:string;
+    likesMushrooms?:boolean; //this is optional, so it's not required, but can have it and MUST be a boolean
+}
+
+character = {
+    name:"Link",
+    skill:"Swordfighting"
+    // here we didnt put likesMushrooms properties and it still works
+}
+
+character = {
+    name:"Link",
+    skill:"Swordfighting",
+    likesMushrooms: true //but here we put it on and works
+}
+
+// ========= INTERFACES AND TYPES: ======================================================
+// interfaces: reusable type definition to cut down the amount of code we write, and cut down the duplication:
+
+
+//this is going to be the blueprint for all the following characters created because it will be reusable
+
+interface VideoGameCharacter {
+    name:string;
+    skill:string;
+    likesMushrooms?:boolean
+}
+
+// ONLY DIFFERENCE BETWEEN INTERFACE AND TYPE IS THAT TYPE HAS AN = AFTER YOU CALL IT
+
+type VideoGameCharacters = {
+    name:string;
+    skill:string;
+    likesMushrooms?:boolean
+}
+
+// ========= EXAMPLES:
+// CHARACTERS CREATED WITHOUT THE INTERFACE
+let character1: { name:string, skill:string, likesMushrooms?:boolean } = {
+    name:"Link",
+    skill:"Swordfighting"
+}
+let character2: { name:string, skill:string, likesMushrooms?:boolean } = {
+    name:"Mario",
+    skill:"Jumping",
+    likesMushrooms: true
+}
+// here we are duplicationg the way we need the character to be everytime we create a new character
+
+// CHARACTERS CREATED USING THE INTERFACE
+let characterOne: VideoGameCharacter = {
+    name: "Link",
+    skill: "Swordfighting",
+}
+let characterTwo: VideoGameCharacter = {
+    name: "Mario",
+    skill: "Jumping",
+    likesMushrooms: true 
+}
+// here we are just calling the interface and if something doesnt fulfill, it will show the error
+
+
+// ========= DECLARING TYPES FOR FUNCTIONS: ======================================================
+
+function multiply (a: number, b: number): number {
+    return a*b;
+} //the last declaration :number is not necessary
+
+const multiply2 = (a: number, b: number): number =>  a*b;
+
+// ========= INTERFACES FOR FUNCTIONS: ======================================================
+
+interface TwoNumberMathFunc {
+    (a: number, b: number): number;
+}
+
+//Here we dont use the interface
+const multiply = (a: number, b: number): number =>  a * b;
+const sum = (a: number, b: number): number =>  a + b;
+
+//Here we use the interface
+const multiply2: TwoNumberMathFunc = (a, b) =>  a * b;
+const sum2: TwoNumberMathFunc = (a, b) =>  a + b;
+
+// ========= INTRO TO GENERICS: <> ======================================================
+
+const copyStringArray = (array: string[]) => [...array] //this only accepts string arrays
+
+const copyArray = <T>(array: T[]): T[] => [...array] //this accepts any generic arrays: 
+// <T> is used to let know TypeScript that inside the parameters you have to be more specific on your typing
+// so this basically means is that you will have an array of ANY type, which will be explicit when you invoke the function
+// AND it will return the same generic T type of array
+
+copyArray<number>([1,2]) //here you change EVERY T into the number type
+copyArray<string>(["Hello","World"]) //here EVERY T is changed into strings

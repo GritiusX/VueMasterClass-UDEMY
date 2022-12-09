@@ -13,9 +13,11 @@
     </div>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import { ref, computed, defineComponent } from "vue";
+export default defineComponent({
   name: "Accordion",
+  //COMPOSITION API WRITING WAY
   props: {
     header: {
       type: String,
@@ -23,21 +25,42 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      isOpen: false,
+  setup() {
+    const isOpen = ref(false);
+
+    const open = () => {
+      isOpen.value = !isOpen.value;
     };
+
+    const caretIcon = computed(
+      () => (isOpen.value ? ["fas", "angle-up"] : ["fas", "angle-down"]) //this.isOpen changes to isOpen.value
+    );
+    return { open, isOpen, caretIcon };
   },
-  computed: {
-    caretIcon() {
-      return this.isOpen ? ["fas", "angle-up"] : ["fas", "angle-down"]; //if this isOpen is false then the chevron points down, if not points up
-    },
-  },
-  methods: {
-    open() {
-      this.isOpen = !this.isOpen;
-    },
-  },
-};
+});
+
+//OPTIONS API WAY OF WRITING
+// props: {
+//   header: {
+//     type: String,
+//     default: "Accordion Header",
+//     required: true,
+//   },
+// },
+// data() {
+//   return {
+//     isOpen: false,
+//   };
+// },
+// computed: {
+//   caretIcon() {
+//     return this.isOpen ? ["fas", "angle-up"] : ["fas", "angle-down"]; //if this isOpen is false then the chevron points down, if not points up
+//   },
+// },
+// methods: {
+//   open() {
+//     this.isOpen = !this.isOpen;
+//   },
+// },
 </script>
 <style></style>

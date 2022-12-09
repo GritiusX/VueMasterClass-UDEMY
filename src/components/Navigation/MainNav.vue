@@ -35,7 +35,8 @@
   </header>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import { mapMutations, mapState } from "vuex";
 
 import ActionButton from "@/components/Shared/ActionButton.vue";
@@ -44,7 +45,7 @@ import Subnav from "@/components/Navigation/Subnav.vue";
 
 import { LOGIN_USER } from "@/store/constants";
 
-export default {
+export default defineComponent({
   name: "MainNav",
   components: { ActionButton, ProfileImage, Subnav },
   data() {
@@ -86,7 +87,7 @@ export default {
     // },
     ...mapMutations([LOGIN_USER]), //you do an array and take as many mutations as you need and that works as if there was a METHOD with the same name
   },
-};
+});
 </script>
 
 <style lang=""></style>

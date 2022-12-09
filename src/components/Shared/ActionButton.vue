@@ -4,8 +4,9 @@
   </button>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { computed, toRefs, defineComponent } from "vue";
+export default defineComponent({
   name: "ActionButton",
   props: {
     text: {
@@ -17,19 +18,34 @@ export default {
       type: String,
       required: false,
       default: "primary",
-      validator(value) {
+      validator: (value: string) => {
         return ["primary", "secondary"].includes(value);
       },
     },
   },
-  computed: {
-    buttonClass() {
+  setup(props) {
+    //COMPOSITION API WRITING WAY
+    const { type } = toRefs(props); //we are destructuring the props reactive object to have a new reactive object to use it on buttonClass
+    const buttonClass = computed(() => {
       return {
-        [this.type]: true,
+        //it must ALWAYS RETURN
+        // [props.type]: true,
+        [type.value]: true, //if using toRefs from props, we can destructure to make it a reactive object and you'll need to use .value
       };
-    },
+    });
+
+    return {
+      buttonClass,
+    };
   },
-};
+  // computed: {
+  //   buttonClass() {
+  //     return {
+  //       [this.type]: true, //OPTION API WAY OF WRITING
+  //     };
+  //   },
+  // },
+});
 </script>
 
 <style scoped>

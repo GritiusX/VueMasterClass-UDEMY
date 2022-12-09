@@ -13,19 +13,31 @@
 // IS GETTING FROM THE API, SUCH AS TITLE, DESCRIPTION, PICTURES, ETC!!!!! -->
 
 <script>
+import { ref, onMounted } from "vue";
 import axios from "axios";
 export default {
   name: "Spotlight",
-  data() {
-    return {
-      spotlights: [],
+  setup() {
+    const spotlights = ref([]);
+    const getSpotlights = async () => {
+      const baseUrl = process.env.VUE_APP_API_URL;
+      const response = await axios.get(`${baseUrl}/spotlights`);
+      spotlights.value = response.data;
     };
+    onMounted(getSpotlights);
+
+    return { spotlights };
   },
-  computed: {},
-  async mounted() {
-    const baseUrl = process.env.VUE_APP_API_URL;
-    const response = await axios.get(`${baseUrl}/spotlights`);
-    this.spotlights = response.data;
-  },
+  // data() { //DEPRECATED BECAUSE OF COMPOSITION API
+  //   return {
+  //     spotlights: [],
+  //   };
+  // },
+  // computed: {},
+  // async mounted() {
+  //   const baseUrl = process.env.VUE_APP_API_URL;
+  //   const response = await axios.get(`${baseUrl}/spotlights`);
+  //   this.spotlights = response.data;
+  // },
 };
 </script>
