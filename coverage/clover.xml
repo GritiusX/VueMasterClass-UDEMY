@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1670601216218" clover="3.2.0">
-  <project timestamp="1670601216218" name="All files">
-    <metrics statements="349" coveredstatements="345" conditionals="67" coveredconditionals="60" methods="92" coveredmethods="91" elements="508" coveredelements="496" complexity="0" loc="349" ncloc="349" packages="10" files="25" classes="25"/>
+<coverage generated="1670601866328" clover="3.2.0">
+  <project timestamp="1670601866328" name="All files">
+    <metrics statements="350" coveredstatements="346" conditionals="67" coveredconditionals="60" methods="92" coveredmethods="91" elements="509" coveredelements="497" complexity="0" loc="350" ncloc="350" packages="10" files="25" classes="25"/>
     <package name="src.api">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="getJobs.js" path="/Users/guidopawluk/Desktop/Guido/UDEMY/vue-masteryclass-udemy/job-search/src/api/getJobs.js">
@@ -245,7 +245,7 @@
       </file>
     </package>
     <package name="src.components.Shared">
-      <metrics statements="68" coveredstatements="68" conditionals="10" coveredconditionals="10" methods="16" coveredmethods="16"/>
+      <metrics statements="69" coveredstatements="69" conditionals="10" coveredconditionals="10" methods="16" coveredmethods="16"/>
       <file name="Accordion.vue" path="/Users/guidopawluk/Desktop/Guido/UDEMY/vue-masteryclass-udemy/job-search/src/components/Shared/Accordion.vue">
         <metrics statements="23" coveredstatements="23" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
         <line num="3" count="2" type="stmt"/>
@@ -292,39 +292,40 @@
       </file>
       <file name="HeaderContainer.vue" path="/Users/guidopawluk/Desktop/Guido/UDEMY/vue-masteryclass-udemy/job-search/src/components/Shared/HeaderContainer.vue">
         <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="4" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="20" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
       </file>
       <file name="TextInput.vue" path="/Users/guidopawluk/Desktop/Guido/UDEMY/vue-masteryclass-udemy/job-search/src/components/Shared/TextInput.vue">
-        <metrics statements="16" coveredstatements="16" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
-        <line num="4" count="2" type="stmt"/>
+        <metrics statements="17" coveredstatements="17" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
         <line num="7" count="2" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
+        <line num="23" count="5" type="stmt"/>
         <line num="24" count="5" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
         <line num="35" count="2" type="stmt"/>
         <line num="36" count="2" type="stmt"/>
         <line num="37" count="2" type="stmt"/>
         <line num="38" count="2" type="stmt"/>
-        <line num="39" count="2" type="stmt"/>
-        <line num="41" count="5" type="stmt"/>
-        <line num="47" count="5" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
         <line num="48" count="5" type="stmt"/>
         <line num="49" count="5" type="stmt"/>
-        <line num="51" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="55" count="2" type="stmt"/>
+        <line num="50" count="5" type="stmt"/>
+        <line num="52" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="56" count="2" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.composables">

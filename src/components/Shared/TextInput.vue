@@ -7,8 +7,10 @@
     @input="handleInput"
   />
 </template>
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "@vue/runtime-core";
+
+export default defineComponent({
   name: "TextInput",
   props: {
     placeholder: {
@@ -23,13 +25,14 @@ export default {
   },
   emits: ["update:modelValue"],
   methods: {
-    handleInput($event) {
-      this.$emit("update:modelValue", $event.target.value);
+    handleInput($event: Event) {
+      const target = $event.target as HTMLInputElement; //we are informing typescript the type of the event inside the Input element so in the emit doesnt say that the value is NULL
+      this.$emit("update:modelValue", target.value);
       // $event.target.value => brings the input value, but do
       // @input="con" => con($event){console.log($event)} to check this at target
     },
   },
-};
+});
 // you can use v-model on a parent component to emit from child to parent using:
 // 1) prop is changed from value to modelValue
 // 2) change the emit from handleInput to update:modelValue

@@ -11,16 +11,17 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 //import { computed } from "vue"; // ALSO DEPRECATED BECAUSE OF USEFILTEREDJOBS COMPOSABLE
 // import { useRoute } from "vue-router"; // useANYTHING are composables //ALSO DEPRECATED BECAUSE OF COMPOSABLE
 //import { useStore } from "vuex"; //COMPOSITION API // ALSO DEPRECATED BECAUSE OF USEFILTEREDJOBS COMPOSABLE
 // import { FILTERED_JOBS } from "@/store/constants";
 // import { mapGetters } from "vuex"; //OPTIONS API
+import { defineComponent } from "vue";
 import useConfirmRoute from "@/composables/useConfirmRoute";
 import { useFilteredJobs } from "@/store/composables";
 
-export default {
+export default defineComponent({
   name: "Subnav",
   setup() {
     const FILTERED_JOBS = useFilteredJobs();
@@ -40,20 +41,5 @@ export default {
     //   return route.name === "JobResults"; //we check this just for the v-if in the HTML to show the job amount ONLY if we are on JobResults page
     // });
   },
-
-  // //DEPRECATED CODE BECAUSE WE ARE USING COMPOSITION API NOW
-  // computed: {
-  //   ...mapGetters([FILTERED_JOBS]), // helper that simulates => this.$store.getters.FILTERED_JOBS => it can be called directly to the template html
-  //   onJobsResultsPage() {
-  //     return this.$route.name === "JobResults";
-  //     //we are accessing the global $route and the name property to check if JobResult
-  //     // true if it's equal, and false if its not, ==> get a boolean for the v-if
-  //   },
-  // },
-  // data() {
-  //   return {
-  //     onJobsResultsPage: true,
-  //   };
-  // },
-};
+});
 </script>
