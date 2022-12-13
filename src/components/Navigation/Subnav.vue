@@ -11,6 +11,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 //import { computed } from "vue"; // ALSO DEPRECATED BECAUSE OF USEFILTEREDJOBS COMPOSABLE
 // import { useRoute } from "vue-router"; // useANYTHING are composables //ALSO DEPRECATED BECAUSE OF COMPOSABLE

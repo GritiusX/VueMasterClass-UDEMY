@@ -47,13 +47,20 @@
     </router-link>
   </li>
 </template>
-<script>
-import { computed } from "@vue/runtime-core";
-export default {
+<script lang="ts">
+import { computed, defineComponent, PropType } from "@vue/runtime-core";
+import { Job } from "@/api/types";
+
+export default defineComponent({
   name: "JobListing",
+  //here we are getting a job object as a prop, but TypeScript doesnt know that the data that is being recieved has also a Job type (from @/api/types)
+  //so in all the functions inside the setup (in this case jobPageLink), when hovered it said that the property "id" is of type any, and it also
+  // said that jobs is a generic string or any (Record<string, any>), so what we did is: 1) import PropType 2) use it inside the type of the prop
+  // job with the specific type that we need, in this case JOB from @/api/types.ts = in the end it looks like job: Object as PropType<Job>
+  // BECAUSE OF PROPTYPE, now inside the function jobPageLink ==> the props.job is a Job Object and props.job.id is a number
   props: {
     job: {
-      type: Object,
+      type: Object as PropType<Job>,
       required: true,
     },
   },
@@ -66,5 +73,5 @@ export default {
   //     return `/jobs/results/${this.job.id}`;
   //   },
   // },
-};
+});
 </script>

@@ -1,3 +1,4 @@
+import { key } from "@/store";
 import { Job } from "@/api/types";
 import { computed } from "vue";
 import { useStore } from "vuex";
@@ -10,7 +11,7 @@ import {
 
 /* GETTERS */
 export const useFilteredJobs = () => {
-  const store = useStore();
+  const store = useStore(key);
   return computed<Job[]>(() => store.getters[FILTERED_JOBS]); // here we only CALL FILTERED_JOBS getter
   //computed properties on TypeScript take a generic, Type, so you can <and put any tipe you want here to specify what will return>
 
@@ -18,13 +19,13 @@ export const useFilteredJobs = () => {
 };
 
 export const useUniqueJobTypes = () => {
-  const store = useStore();
+  const store = useStore(key);
   return computed<Set<string>>(() => store.getters[UNIQUE_JOB_TYPES]);
   //this returns a Set of strings
 };
 
 export const useUniqueOrganizations = () => {
-  const store = useStore();
+  const store = useStore(key);
   return computed<Set<string>>(() => store.getters[UNIQUE_ORGANIZATIONS]);
   //this returns a Set of strings
 };
@@ -32,7 +33,7 @@ export const useUniqueOrganizations = () => {
 /* ACTIONS */
 
 export const useFetchJobsDispatch = () => {
-  const store = useStore();
+  const store = useStore(key);
   store.dispatch(FETCH_JOBS);
   //here there is no return, thats why when you hover it says void
 };

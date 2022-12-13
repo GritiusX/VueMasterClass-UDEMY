@@ -43,12 +43,13 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
 import Headline from "@/components/JobSearch/Headline.vue";
 import JobSearchForm from "@/components/JobSearch/JobSearchForm.vue";
 import Spotlight from "@/components/JobSearch/Spotlight.vue";
+import { defineComponent } from "@vue/runtime-core";
 
-export default {
+export default defineComponent({
   name: "Hero",
   components: { Headline, JobSearchForm, Spotlight },
   // beforeCreate() {
@@ -63,5 +64,5 @@ export default {
   // mounted() {
   //   console.log("Hero has been mounted");
   // },
-};
+});
 </script>

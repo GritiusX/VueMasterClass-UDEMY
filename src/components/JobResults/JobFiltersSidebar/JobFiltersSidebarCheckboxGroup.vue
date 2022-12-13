@@ -21,13 +21,14 @@
   </accordion>
 </template>
 
-<script>
+<script lang="ts">
 import Accordion from "@/components/Shared/Accordion.vue";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { key } from "@/store";
 
-export default {
+export default defineComponent({
   name: "JobFiltersSidebarCheckboxGroup",
   components: { Accordion },
   props: {
@@ -46,10 +47,11 @@ export default {
     },
   },
   setup(props) {
-    const store = useStore();
+    //we are importing key which will tell TypeScript the type of data that has in the state - ALWAYS CREATE THE KEY
+    const store = useStore(key);
     const router = useRouter();
 
-    const selectedValues = ref([]);
+    const selectedValues = ref<string[]>([]); // with refs ALWAYS use a generic to let TYPESCRIPT know what type it is
     // const uniqueOrganizations = useUniqueOrganizations();
 
     const selectValue = () => {
@@ -61,5 +63,5 @@ export default {
       selectValue,
     };
   },
-};
+});
 </script>

@@ -31,8 +31,9 @@
     </div>
   </main>
 </template>
-<script>
-import { computed, onMounted } from "vue";
+
+<script lang="ts">
+import { computed, defineComponent, onMounted } from "vue";
 //import { useStore } from "vuex"; //DEPRECATED THROUGH USEFETCHJOBSDISPATCH COMPOSABLE
 //import { useRoute } from "vue-router";
 
@@ -44,20 +45,14 @@ import JobListing from "@/components/JobResults/JobListing.vue";
 //import { mapActions, mapGetters } from "vuex"; // DEPRECATED COMPOSITION API
 //import { FETCH_JOBS, FILTERED_JOBS } from "@/store/constants"; // DEPRECATED COMPOSITION API
 
-export default {
+export default defineComponent({
   name: "JobListings",
   components: { JobListing },
   setup() {
-    // const store = useStore();
-    // const fetchJobs = () => store.dispatch(FETCH_JOBS); //this replaced the ...mapActions && the async mounted function
-    onMounted(useFetchJobsDispatch); //useFetchJobsDispatch DEPRECATED THE TWO LINES UP
+    onMounted(useFetchJobsDispatch);
 
     const filteredJobs = useFilteredJobs(); //this replaced ...mapGetters([FILTERED_JOBS])
 
-    //const route = useRoute();
-    // const currentPage = computed(() =>
-    //   Number.parseInt(route.query.page || "1")
-    // );
     const currentPage = useCurrentPage(); //this composable DEPRECATED the route + old currentPage
 
     const maxPage = computed(() => Math.ceil(filteredJobs.value.length / 10));
@@ -66,17 +61,6 @@ export default {
       currentPage,
       maxPage
     );
-    //DEPRECATED BY USEPREVIOUSANDNEXTPAGES
-    // const previousPage = computed(() => {
-    //   const previousPage = currentPage.value - 1;
-    //   const firstPage = 1;
-    //   return previousPage >= firstPage ? previousPage : undefined;
-    // });
-    // const nextPage = computed(() => {
-    //   const nextPage = currentPage.value + 1;
-    //   const maxPage = Math.ceil(filteredJobs.value.length / 10);
-    //   return nextPage <= maxPage ? nextPage : undefined;
-    // });
 
     const displayedJobs = computed(() => {
       const pageNumber = currentPage.value;
@@ -88,42 +72,88 @@ export default {
 
     return { currentPage, previousPage, nextPage, displayedJobs };
   },
-  // data() {
-  //   return {
-  //     jobs: [],
-  //   };
-  // },
-  // computed: {
-  //   ...mapGetters([FILTERED_JOBS]), // WAS REPLACED BY useFilteredJobs composable!!!!!!!
-  //   currentPage() {
-  //     const pageString = this.$route.query.page || "1";
-  //     return Number.parseInt(pageString);
-  //   },
-  //   previousPage() {
-  //     const previousPage = this.currentPage - 1;
-  //     const firstPage = 1;
-  //     return previousPage >= firstPage ? previousPage : undefined;
-  //   },
-  //   nextPage() {
-  //     const nextPage = this.currentPage + 1;
-  //     const maxPage = Math.ceil(this.FILTERED_JOBS.length / 10);
-  //     return nextPage <= maxPage ? nextPage : undefined;
-  //   },
-  //   displayedJobs() {
-  //     const pageNumber = this.currentPage;
-  //     const firstJobIndex = (pageNumber - 1) * 10;
-  //     const lastJobIndex = pageNumber * 10;
+});
 
-  //     return this.FILTERED_JOBS.slice(firstJobIndex, lastJobIndex);
-  //   },
-  // },
-  // async mounted() {
-  //   this.FETCH_JOBS();
-  // },
-  // methods: {
-  //   ...mapActions([FETCH_JOBS]),
-  // },
-};
+// ======================================================================================================
+//DEPRECATED BECAUSE OF TYPESCRIPT (OPTIONS API IS BELOW THIS):
+// name: "JobListings",
+// components: { JobListing },
+// setup() {
+//   // const store = useStore();
+//   // const fetchJobs = () => store.dispatch(FETCH_JOBS); //this replaced the ...mapActions && the async mounted function
+//   onMounted(useFetchJobsDispatch); //useFetchJobsDispatch DEPRECATED THE TWO LINES UP
+
+//   const filteredJobs = useFilteredJobs(); //this replaced ...mapGetters([FILTERED_JOBS])
+
+//   //const route = useRoute();
+//   // const currentPage = computed(() =>
+//   //   Number.parseInt(route.query.page || "1")
+//   // );
+//   const currentPage = useCurrentPage(); //this composable DEPRECATED the route + old currentPage
+
+//   const maxPage = computed(() => Math.ceil(filteredJobs.value.length / 10));
+
+//   const { previousPage, nextPage } = usePreviousAndNextPages(
+//     currentPage,
+//     maxPage
+//   );
+//   //DEPRECATED BY USEPREVIOUSANDNEXTPAGES
+//   // const previousPage = computed(() => {
+//   //   const previousPage = currentPage.value - 1;
+//   //   const firstPage = 1;
+//   //   return previousPage >= firstPage ? previousPage : undefined;
+//   // });
+//   // const nextPage = computed(() => {
+//   //   const nextPage = currentPage.value + 1;
+//   //   const maxPage = Math.ceil(filteredJobs.value.length / 10);
+//   //   return nextPage <= maxPage ? nextPage : undefined;
+//   // });
+
+//   const displayedJobs = computed(() => {
+//     const pageNumber = currentPage.value;
+//     const firstJobIndex = (pageNumber - 1) * 10;
+//     const lastJobIndex = pageNumber * 10;
+
+//     return filteredJobs.value.slice(firstJobIndex, lastJobIndex);
+//   });
+
+//   return { currentPage, previousPage, nextPage, displayedJobs };
+// },
+// // data() {
+// //   return {
+// //     jobs: [],
+// //   };
+// // },
+// // computed: {
+// //   ...mapGetters([FILTERED_JOBS]), // WAS REPLACED BY useFilteredJobs composable!!!!!!!
+// //   currentPage() {
+// //     const pageString = this.$route.query.page || "1";
+// //     return Number.parseInt(pageString);
+// //   },
+// //   previousPage() {
+// //     const previousPage = this.currentPage - 1;
+// //     const firstPage = 1;
+// //     return previousPage >= firstPage ? previousPage : undefined;
+// //   },
+// //   nextPage() {
+// //     const nextPage = this.currentPage + 1;
+// //     const maxPage = Math.ceil(this.FILTERED_JOBS.length / 10);
+// //     return nextPage <= maxPage ? nextPage : undefined;
+// //   },
+// //   displayedJobs() {
+// //     const pageNumber = this.currentPage;
+// //     const firstJobIndex = (pageNumber - 1) * 10;
+// //     const lastJobIndex = pageNumber * 10;
+
+// //     return this.FILTERED_JOBS.slice(firstJobIndex, lastJobIndex);
+// //   },
+// // },
+// // async mounted() {
+// //   this.FETCH_JOBS();
+// // },
+// // methods: {
+// //   ...mapActions([FETCH_JOBS]),
+// // },
 
 // ======================================================================================================
 //DEPRECATED BECAUSE OF COMPOSITION API:

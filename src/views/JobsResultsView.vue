@@ -5,11 +5,13 @@
   </div>
   <!-- <button @click="goToHome">Go to Home Page</button> -->
 </template>
-<script>
+
+<script lang="ts">
 import JobFiltersSidebar from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebar.vue";
 import JobListings from "@/components/JobResults/JobListings.vue";
+import { defineComponent } from "@vue/runtime-core";
 
-export default {
+export default defineComponent({
   name: "JobsResultsView",
   components: { JobFiltersSidebar, JobListings },
   computed: {
@@ -26,5 +28,5 @@ export default {
     //   });
     // },
   },
-};
+});
 </script>

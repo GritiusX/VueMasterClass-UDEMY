@@ -57,14 +57,14 @@
   </form>
 </template>
 
-<script>
-import { ref } from "vue";
+<script lang="ts">
+import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router"; //composable from vue-router
 
 import ActionButton from "@/components/Shared/ActionButton.vue";
 import TextInput from "@/components/Shared/TextInput.vue";
 
-export default {
+export default defineComponent({
   name: "JobSearchForm",
   components: { ActionButton, TextInput },
   setup() {
@@ -85,35 +85,36 @@ export default {
 
     return { role, location, searchForJobs };
   },
-  // data() {
-  //   return {
-  //     role: "",
-  //     location: "",
-  //   };
-  // },
-  // methods: {
-  //   searchForJobs() {
-  //     this.$router.push({
-  //       name: "JobResults",
-  //       query: { role: this.role, location: this.location },
-  //     });
-  //   },
+});
+// ============ DEPRECATED OPTIONS API ===================
+// data() {
+//   return {
+//     role: "",
+//     location: "",
+//   };
+// },
+// methods: {
+//   searchForJobs() {
+//     this.$router.push({
+//       name: "JobResults",
+//       query: { role: this.role, location: this.location },
+//     });
+//   },
 
-  // --------------------------------------------------------- even older code
-  // updateRole(payload) { //the 2 first methods are to be used in @handleInput="method"
-  //   this.role = payload;
-  // },
-  // updateLocation(payload) {
-  //   this.location = payload;
-  // },
-  // updateRole(event) { // this updateRole is from the commented input v-model=role
-  //   console.log((this.role = event.target.value));
-  // },
-  // updateLocation(event) {
-  //   console.log((this.location = event.target.value));
-  // },
-  //},
-};
+// ========================================================= even older code ======================================
+// updateRole(payload) { //the 2 first methods are to be used in @handleInput="method"
+//   this.role = payload;
+// },
+// updateLocation(payload) {
+//   this.location = payload;
+// },
+// updateRole(event) { // this updateRole is from the commented input v-model=role
+//   console.log((this.role = event.target.value));
+// },
+// updateLocation(event) {
+//   console.log((this.location = event.target.value));
+// },
+//},
 
 // example of TextInput in JobSearchForm:
 // 1) it renders the :value="role" the first time completely empty so it then
