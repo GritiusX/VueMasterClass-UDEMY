@@ -1,4 +1,4 @@
-import { Job } from "@/api/types";
+import { Degree, Job } from "@/api/types";
 import state from "@/store/state";
 import { GlobalState } from "@/store/types";
 
@@ -19,4 +19,10 @@ export const createJob = (config: Partial<Job> = {}): Job => ({
   description: [],
   dateAdded: "2021-07-04",
   ...config, //this is done so if you just want to have an empty object you overwright everything
+});
+
+export const createDegree = (config: Partial<Degree> = {}): Degree => ({
+  id: 1,
+  degree: "Associate",
+  ...config,
 });

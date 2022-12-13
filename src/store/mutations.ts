@@ -3,10 +3,11 @@ import {
   RECEIVE_JOBS,
   ADD_SELECTED_ORGANIZATIONS,
   ADD_SELECTED_JOB_TYPES,
+  RECEIVE_DEGREES,
 } from "@/store/constants";
 
 import { GlobalState } from "@/store/types";
-import { Job } from "@/api/types";
+import { Job, Degree } from "@/api/types";
 
 const mutations = {
   //this is like having a methods in each component, but global
@@ -18,6 +19,9 @@ const mutations = {
   //the type and the properties from the state
   [RECEIVE_JOBS](state: GlobalState, jobsBeingSent: Job[]) {
     state.jobs = jobsBeingSent;
+  },
+  [RECEIVE_DEGREES](state: GlobalState, degreesBeingSent: Degree[]) {
+    state.degrees = degreesBeingSent;
   },
   [ADD_SELECTED_ORGANIZATIONS](
     state: GlobalState,
