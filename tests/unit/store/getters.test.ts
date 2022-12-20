@@ -1,4 +1,4 @@
-import { createJob, createState } from "./utils";
+import { createDegree, createJob, createState } from "./utils";
 import getters from "@/store/getters";
 
 describe("getters", () => {
@@ -9,13 +9,6 @@ describe("getters", () => {
         createJob({ organization: "Amazon" }),
         createJob({ organization: "Google" }),
       ];
-      // const state = {
-      //   jobs: [
-      //     { organization: "Google" },
-      //     { organization: "Google" },
-      //     { organization: "Amazon" },
-      //   ],
-      // };
       const state = createState({ jobs });
       const result = getters.UNIQUE_ORGANIZATIONS(state);
       expect(result).toEqual(new Set(["Google", "Amazon"]));
@@ -32,6 +25,17 @@ describe("getters", () => {
       const state = createState({ jobs });
       const result = getters.UNIQUE_JOB_TYPES(state);
       expect(result).toEqual(new Set(["Full-time", "Part-time"]));
+    });
+  });
+  describe("UNIQUE_DEGREES", () => {
+    it("finds unique degrees from backend", () => {
+      const degrees = [
+        createDegree({ degree: "Bachelors" }),
+        createDegree({ degree: "Masters" }),
+      ];
+      const state = createState({ degrees });
+      const result = getters.UNIQUE_DEGREES(state);
+      expect(result).toStrictEqual(["Bachelors", "Masters"]);
     });
   });
 
@@ -77,24 +81,49 @@ describe("getters", () => {
     });
   });
 
+  describe("INCLUDE_JOB_BY_DEGREE", () => {
+    describe("when user has not selected any degrees", () => {
+      it("includes job", () => {
+        const state = createState({
+          selectedDegrees: [], //user hasnt selected any degree
+        });
+        const job = createJob({ degree: "Bachelors" });
+        const includeJob = getters.INCLUDE_JOB_BY_DEGREE(state)(job);
+        expect(includeJob).toBe(true);
+      });
+    });
+    it("identifies if job is associated with given degrees", () => {
+      const state = createState({
+        selectedDegrees: ["Bachelors", "Masters"], //user selected this degrees
+      });
+      const job = createJob({ degree: "Bachelors" });
+      const includeJob = getters.INCLUDE_JOB_BY_DEGREE(state)(job);
+      expect(includeJob).toBe(true);
+    });
+  });
+
   describe("FILTERED_JOBS", () => {
-    it("filters jobs by organization and job types", () => {
+    it("filters jobs by organization, job types and degrees", () => {
       const INCLUDE_JOB_BY_ORGANIZATION = jest.fn().mockReturnValue(true);
       const INCLUDE_JOB_BY_JOB_TYPE = jest.fn().mockReturnValue(true);
+      const INCLUDE_JOB_BY_DEGREE = jest.fn().mockReturnValue(true);
+
       const mockGetters = {
         INCLUDE_JOB_BY_ORGANIZATION,
         INCLUDE_JOB_BY_JOB_TYPE,
+        INCLUDE_JOB_BY_DEGREE,
       };
-      const job = createJob({
-        title: "Best job ever",
-      });
-      const state = createState({
-        jobs: [job],
-      });
+
+      const job = createJob({ title: "Best job ever" });
+      const state = createState({ jobs: [job] });
+
       const result = getters.FILTERED_JOBS(state, mockGetters);
+      // it accepts the VUEXstore state as the 1st argument and a
+      // 2nd OPTIONAL argument is all the existing getters
       expect(result).toEqual([job]);
       expect(INCLUDE_JOB_BY_ORGANIZATION).toHaveBeenLastCalledWith(job);
       expect(INCLUDE_JOB_BY_JOB_TYPE).toHaveBeenLastCalledWith(job);
+      expect(INCLUDE_JOB_BY_DEGREE).toHaveBeenLastCalledWith(job);
     });
   });
 });

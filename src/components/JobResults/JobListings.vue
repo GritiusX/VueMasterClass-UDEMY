@@ -39,7 +39,11 @@ import { computed, defineComponent, onMounted } from "vue";
 
 import useCurrentPage from "@/composables/useCurrentPage";
 import usePreviousAndNextPages from "@/composables/usePreviousAndNextPages";
-import { useFilteredJobs, useFetchJobsDispatch } from "@/store/composables";
+import {
+  useFilteredJobs,
+  useFetchJobsDispatch,
+  useFetchDegreesDispatch,
+} from "@/store/composables";
 //import { FETCH_JOBS } from "@/store/constants"; //DEPRECATED THROUGH USEFETCHJOBSDISPATCH COMPOSABLE
 import JobListing from "@/components/JobResults/JobListing.vue";
 //import { mapActions, mapGetters } from "vuex"; // DEPRECATED COMPOSITION API
@@ -50,7 +54,12 @@ export default defineComponent({
   components: { JobListing },
   setup() {
     onMounted(useFetchJobsDispatch);
-
+    // ====== SUPER IMPORTANT:
+    // 1) this onMounted, calls the COMPOSABLE useFetchJobsDispatch
+    // 2) the composable DISPATCH from the store the ACTION FETCH_JOBS which then
+    // 3) this action makes a COMMIT on the RECEIVE_JOBS MUTATION
+    // 4) this mutation populates the VUEX Store property with JOBS
+    onMounted(useFetchDegreesDispatch);
     const filteredJobs = useFilteredJobs(); //this replaced ...mapGetters([FILTERED_JOBS])
 
     const currentPage = useCurrentPage(); //this composable DEPRECATED the route + old currentPage

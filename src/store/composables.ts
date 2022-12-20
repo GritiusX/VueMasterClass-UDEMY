@@ -7,6 +7,8 @@ import {
   UNIQUE_JOB_TYPES,
   UNIQUE_ORGANIZATIONS,
   FETCH_JOBS,
+  FETCH_DEGREES,
+  UNIQUE_DEGREES,
 } from "@/store/constants";
 
 /* GETTERS */
@@ -30,13 +32,33 @@ export const useUniqueOrganizations = () => {
   //this returns a Set of strings
 };
 
-/* ACTIONS */
+export const useUniqueDegrees = () => {
+  const store = useStore(key); //establish a connection to the VUEX store
+  return computed<string[]>(() => store.getters[UNIQUE_DEGREES]);
+  //any time any dependency changes, the computed will rerun and get back the data
+};
 
+/* ACTIONS */
 export const useFetchJobsDispatch = () => {
   const store = useStore(key);
   store.dispatch(FETCH_JOBS);
   //here there is no return, thats why when you hover it says void
 };
+
+export const useFetchDegreesDispatch = () => {
+  const store = useStore(key);
+  store.dispatch(FETCH_DEGREES);
+};
+
+// ======  IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!!
+// 1) get the PROPERTY on the state
+// 1.1) create a constant for the mutation
+// 2) get the MUTATION to modify the PROPERTY (it can ONLY modify 1 property)
+// 2.2) get a constant for the action
+// 3) make an ACTION (asynchronous) to DO AN API REQUEST
+// 4) COMMIT the MUTATION to overwrite the state and POPULATES the property
+// 5) have a GETTER talk to that PROPERTY and filter anything you need
+// 6) THROUGH A COMPOSABLE send the GETTER on your vue components (EX: useUniqueDegrees)
 
 // /* GETTERS */ == DEPRECATED FROM JAVASCRIPT TO TYPESCRIPT
 // export const useFilteredJobs = () => {

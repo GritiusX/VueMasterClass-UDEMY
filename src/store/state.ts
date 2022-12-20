@@ -9,10 +9,18 @@ const state = (): GlobalState => {
     degrees: [],
     selectedOrganizations: [],
     selectedJobTypes: [],
+    selectedDegrees: [],
   };
 };
 
 export default state;
-// 1) get the property on the state
-// 2) get the mutation to modify the property it can ONLY modify 1 property
-// 3)
+
+// ======  IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!!
+// 1) get the PROPERTY on the state
+// 1.1) create a constant for the mutation
+// 2) get the MUTATION to modify the PROPERTY (it can ONLY modify 1 property)
+// 2.2) get a constant for the action
+// 3) make an ACTION (asynchronous) to DO AN API REQUEST
+// 4) COMMIT the MUTATION to overwrite the state and POPULATES the property
+// 5) have a GETTER talk to that PROPERTY and filter anything you need
+// 6) THROUGH A COMPOSABLE send the GETTER on your vue components (EX: useUniqueDegrees)

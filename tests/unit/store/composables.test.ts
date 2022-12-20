@@ -6,8 +6,10 @@ import {
   useUniqueJobTypes,
   useUniqueOrganizations,
   useFetchJobsDispatch,
+  useFetchDegreesDispatch,
+  useUniqueDegrees,
 } from "@/store/composables";
-import { FETCH_JOBS } from "@/store/constants";
+import { FETCH_JOBS, FETCH_DEGREES } from "@/store/constants";
 
 const useStoreMock = useStore as jest.Mock; //we are letting TypeScript understand the jest
 
@@ -48,6 +50,18 @@ describe("composables", () => {
     });
   });
 
+  describe("useUniqueDegrees", () => {
+    it("retrieves unique degrees from store", () => {
+      useStoreMock.mockReturnValue({
+        getters: {
+          UNIQUE_DEGREES: ["Bachelors", "Masters"], //It's not necessary to be a set but to be almost the same we use it
+        },
+      });
+      const result = useUniqueDegrees();
+      expect(result.value).toEqual(["Bachelors", "Masters"]);
+    });
+  });
+
   describe("useFetchJobsDispatch", () => {
     it("sends call to fetch jobs from API", () => {
       const dispatch = jest.fn();
@@ -56,6 +70,17 @@ describe("composables", () => {
       });
       useFetchJobsDispatch();
       expect(dispatch).toHaveBeenCalledWith(FETCH_JOBS);
+    });
+  });
+
+  describe("useFetchDegreesDispatch", () => {
+    it("sends call to fetch degrees from API", () => {
+      const dispatch = jest.fn();
+      useStoreMock.mockReturnValue({
+        dispatch,
+      });
+      useFetchDegreesDispatch();
+      expect(dispatch).toHaveBeenCalledWith(FETCH_DEGREES);
     });
   });
 });

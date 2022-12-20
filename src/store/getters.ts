@@ -3,14 +3,17 @@ import { GlobalState } from "@/store/types";
 import {
   UNIQUE_ORGANIZATIONS,
   UNIQUE_JOB_TYPES,
+  UNIQUE_DEGREES,
   FILTERED_JOBS,
   INCLUDE_JOB_BY_ORGANIZATION,
   INCLUDE_JOB_BY_JOB_TYPE,
+  INCLUDE_JOB_BY_DEGREE,
 } from "@/store/constants";
 
 interface IncludeJobGetters {
   INCLUDE_JOB_BY_ORGANIZATION: (job: Job) => boolean;
   INCLUDE_JOB_BY_JOB_TYPE: (job: Job) => boolean;
+  INCLUDE_JOB_BY_DEGREE: (job: Job) => boolean;
 }
 
 const getters = {
@@ -19,13 +22,14 @@ const getters = {
     state.jobs.forEach((job) => uniqueOrganizations.add(job.organization));
     return uniqueOrganizations;
   },
-
   [UNIQUE_JOB_TYPES](state: GlobalState) {
     const uniqueJobTypes = new Set<string>(); // we made this set to be a Generic String Set, so the return value is a String Set as needed in the whole app
     state.jobs.forEach((job) => uniqueJobTypes.add(job.jobType));
     return uniqueJobTypes;
   },
-
+  [UNIQUE_DEGREES](state: GlobalState) {
+    return state.degrees.map((degree) => degree.degree);
+  },
   [INCLUDE_JOB_BY_ORGANIZATION]: (state: GlobalState) => (job: Job) => {
     if (state.selectedOrganizations.length === 0) return true;
     return state.selectedOrganizations.includes(job.organization);
@@ -34,14 +38,31 @@ const getters = {
     if (state.selectedJobTypes.length === 0) return true;
     return state.selectedJobTypes.includes(job.jobType);
   },
+  [INCLUDE_JOB_BY_DEGREE]: (state: GlobalState) => (job: Job) => {
+    if (state.selectedDegrees.length === 0) return true;
+    return state.selectedDegrees.includes(job.degree);
+  },
   [FILTERED_JOBS](state: GlobalState, getters: IncludeJobGetters) {
+    // it accepts the VUEXstore state as the 1st argument and a
+    // 2nd OPTIONAL argument is all the existing getters
     return state.jobs
       .filter((job) => getters.INCLUDE_JOB_BY_ORGANIZATION(job))
-      .filter((job) => getters.INCLUDE_JOB_BY_JOB_TYPE(job));
+      .filter((job) => getters.INCLUDE_JOB_BY_JOB_TYPE(job))
+      .filter((job) => getters.INCLUDE_JOB_BY_DEGREE(job));
   },
 };
 
 export default getters;
+
+// ======  IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!!
+// 1) get the PROPERTY on the state
+// 1.1) create a constant for the mutation
+// 2) get the MUTATION to modify the PROPERTY (it can ONLY modify 1 property)
+// 2.2) get a constant for the action
+// 3) make an ACTION (asynchronous) to DO AN API REQUEST
+// 4) COMMIT the MUTATION to overwrite the state and POPULATES the property
+// 5) have a GETTER talk to that PROPERTY and filter anything you need
+// 6) THROUGH A COMPOSABLE send the GETTER on your vue components (EX: useUniqueDegrees)
 
 // OLD JAVASCRIPT CODE:
 // const getters = {

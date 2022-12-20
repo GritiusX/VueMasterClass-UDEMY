@@ -4,6 +4,8 @@ import {
   ADD_SELECTED_ORGANIZATIONS,
   ADD_SELECTED_JOB_TYPES,
   RECEIVE_DEGREES,
+  ADD_SELECTED_DEGREES,
+  CLEAR_FILTER_SELECTIONS,
 } from "@/store/constants";
 
 import { GlobalState } from "@/store/types";
@@ -32,6 +34,24 @@ const mutations = {
   [ADD_SELECTED_JOB_TYPES](state: GlobalState, jobTypesBeingSent: string[]) {
     state.selectedJobTypes = jobTypesBeingSent;
   },
+  [ADD_SELECTED_DEGREES](state: GlobalState, degreesBeingSent: string[]) {
+    state.selectedDegrees = degreesBeingSent;
+  },
+  [CLEAR_FILTER_SELECTIONS](state: GlobalState) {
+    state.selectedOrganizations = [];
+    state.selectedJobTypes = [];
+    state.selectedDegrees = [];
+  },
 };
 
 export default mutations;
+
+// ======  IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!!
+// 1) get the PROPERTY on the state
+// 1.1) create a constant for the mutation
+// 2) get the MUTATION to modify the PROPERTY (it can ONLY modify 1 property)
+// 2.2) get a constant for the action
+// 3) make an ACTION (asynchronous) to DO AN API REQUEST
+// 4) COMMIT the MUTATION to overwrite the state and POPULATES the property
+// 5) have a GETTER talk to that PROPERTY and filter anything you need
+// 6) THROUGH A COMPOSABLE send the GETTER on your vue components (EX: useUniqueDegrees)

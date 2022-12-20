@@ -86,6 +86,7 @@ export default defineComponent({
     return { role, location, searchForJobs };
   },
 });
+
 // ============ DEPRECATED OPTIONS API ===================
 // data() {
 //   return {

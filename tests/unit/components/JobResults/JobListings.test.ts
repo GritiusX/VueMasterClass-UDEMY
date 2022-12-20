@@ -2,7 +2,12 @@ import { ref } from "vue";
 
 import { flushPromises, shallowMount, RouterLinkStub } from "@vue/test-utils";
 
-import { useFilteredJobs, useFetchJobsDispatch } from "@/store/composables";
+import {
+  useFilteredJobs,
+  useFetchJobsDispatch,
+  useFetchDegreesDispatch,
+} from "@/store/composables";
+
 jest.mock("@/store/composables");
 
 import useCurrentPage from "@/composables/useCurrentPage";
@@ -12,7 +17,7 @@ import usePreviousAndNextPages from "@/composables/usePreviousAndNextPages";
 jest.mock("@/composables/usePreviousAndNextPages");
 
 import JobListings from "@/components/JobResults/JobListings.vue";
-//THERE IS AN OLDJobListings test, check comments there!!
+// THERE IS AN OLDJobListings test, check comments there!!
 
 const useFilteredJobsMock = useFilteredJobs as jest.Mock;
 const useCurrentPageMock = useCurrentPage as jest.Mock;
@@ -37,6 +42,17 @@ describe("JobListings", () => {
       });
       shallowMount(JobListings, createConfig());
       expect(useFetchJobsDispatch).toHaveBeenCalled();
+    });
+
+    it("makes call to fetch degrees from API", () => {
+      useFilteredJobsMock.mockReturnValue({ value: [] });
+      useCurrentPageMock.mockReturnValue({ value: 2 });
+      usePreviousAndNextPagesMock.mockReturnValue({
+        previousPage: 1,
+        nextPage: 2,
+      });
+      shallowMount(JobListings, createConfig()); // we shallowMount the component
+      expect(useFetchDegreesDispatch).toHaveBeenCalled(); //we verify the composable was invocked
     });
   });
 
@@ -77,7 +93,6 @@ describe("JobListings", () => {
         nextPage: 1,
       });
 
-
       const wrapper = shallowMount(JobListings, createConfig());
       const previousPage = wrapper.find("[data-test='previous-page-link']");
       expect(previousPage.exists()).toBe(false);
@@ -106,7 +121,6 @@ describe("JobListings", () => {
         previousPage: 1,
         nextPage: undefined,
       });
-
 
       const wrapper = shallowMount(JobListings, createConfig());
       await flushPromises();

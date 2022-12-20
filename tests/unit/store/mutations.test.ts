@@ -58,6 +58,29 @@ describe("mutations", () => {
         ]);
       });
     });
+
+    describe("ADD_SELECTED_DEGREES", () => {
+      it("keeps track of which degrees the user has chosen to filter jobs by", () => {
+        const startingState = createState({ selectedDegrees: [] });
+        mutations.ADD_SELECTED_DEGREES(startingState, ["bachelors"]);
+        expect(startingState.selectedDegrees).toEqual(["bachelors"]);
+      });
+    });
+
+    describe("CLEAR_FILTER_SELECTIONS", () => {
+      it("removes all job filters that user has chosen", () => {
+        const startingState = createState({
+          selectedOrganizations: ["Google"],
+          selectedJobTypes: ["Full-time"],
+          selectedDegrees: ["Masters"],
+        });
+
+        mutations.CLEAR_FILTER_SELECTIONS(startingState);
+        expect(startingState.selectedOrganizations).toEqual([]);
+        expect(startingState.selectedJobTypes).toEqual([]);
+        expect(startingState.selectedDegrees).toEqual([]);
+      });
+    });
   });
 });
 // describe("mutations", () => {
