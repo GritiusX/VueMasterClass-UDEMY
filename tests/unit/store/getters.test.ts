@@ -102,16 +102,55 @@ describe("getters", () => {
     });
   });
 
+  describe("INCLUDE_JOB_BY_SKILL", () => {
+    it("identifies if job matches user's skill", () => {
+      const state = createState({
+        skillsSearchTerm: "Vue",
+      });
+      const job = createJob({ title: "Vue Developer" });
+      const includeJob = getters.INCLUDE_JOB_BY_SKILL(state)(job);
+      //first we invoke that getter and provide de state and that getter returns a
+      //new function, and that function accepts the actual argument that we want to pass
+      // and in this case the argument we want to pass is the job which is going to be
+      //inside the function returned by the getter and all this HAS tu return you a boolean
+      expect(includeJob).toBe(true);
+    });
+
+    it("handles inconsistent character casing", () => {
+      const state = createState({
+        skillsSearchTerm: "vuE",
+      });
+      const job = createJob({ title: "Vue Developer" });
+      const includeJob = getters.INCLUDE_JOB_BY_SKILL(state)(job);
+
+      expect(includeJob).toBe(true);
+    });
+
+    describe("when the user has not entered any skill", () => {
+      it("includes job", () => {
+        const state = createState({
+          skillsSearchTerm: "",
+        });
+        const job = createJob({ title: "Vue Developer" });
+        const includeJob = getters.INCLUDE_JOB_BY_SKILL(state)(job);
+
+        expect(includeJob).toBe(true);
+      });
+    });
+  });
+
   describe("FILTERED_JOBS", () => {
-    it("filters jobs by organization, job types and degrees", () => {
+    it("filters jobs by organization, job types, skills and degrees", () => {
       const INCLUDE_JOB_BY_ORGANIZATION = jest.fn().mockReturnValue(true);
       const INCLUDE_JOB_BY_JOB_TYPE = jest.fn().mockReturnValue(true);
       const INCLUDE_JOB_BY_DEGREE = jest.fn().mockReturnValue(true);
+      const INCLUDE_JOB_BY_SKILL = jest.fn().mockReturnValue(true);
 
       const mockGetters = {
         INCLUDE_JOB_BY_ORGANIZATION,
         INCLUDE_JOB_BY_JOB_TYPE,
         INCLUDE_JOB_BY_DEGREE,
+        INCLUDE_JOB_BY_SKILL,
       };
 
       const job = createJob({ title: "Best job ever" });
@@ -124,6 +163,7 @@ describe("getters", () => {
       expect(INCLUDE_JOB_BY_ORGANIZATION).toHaveBeenLastCalledWith(job);
       expect(INCLUDE_JOB_BY_JOB_TYPE).toHaveBeenLastCalledWith(job);
       expect(INCLUDE_JOB_BY_DEGREE).toHaveBeenLastCalledWith(job);
+      expect(INCLUDE_JOB_BY_SKILL).toHaveBeenLastCalledWith(job);
     });
   });
 });

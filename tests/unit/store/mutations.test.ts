@@ -67,18 +67,28 @@ describe("mutations", () => {
       });
     });
 
+    describe("UPDATE_SKILLS_SEARCH_TERM", () => {
+      it("receives search term for skills the user has", () => {
+        const startingState = createState({ skillsSearchTerm: "" });
+        mutations.UPDATE_SKILLS_SEARCH_TERM(startingState, "Vue");
+        expect(startingState.skillsSearchTerm).toBe("Vue");
+      });
+    });
+
     describe("CLEAR_FILTER_SELECTIONS", () => {
       it("removes all job filters that user has chosen", () => {
         const startingState = createState({
           selectedOrganizations: ["Google"],
           selectedJobTypes: ["Full-time"],
           selectedDegrees: ["Masters"],
+          skillsSearchTerm: "Vue",
         });
 
         mutations.CLEAR_FILTER_SELECTIONS(startingState);
         expect(startingState.selectedOrganizations).toEqual([]);
         expect(startingState.selectedJobTypes).toEqual([]);
         expect(startingState.selectedDegrees).toEqual([]);
+        expect(startingState.skillsSearchTerm).toEqual("");
       });
     });
   });

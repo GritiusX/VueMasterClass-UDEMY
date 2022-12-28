@@ -3,6 +3,7 @@
     class="flex flex-col p-4 bg-white border-r border-solid border-brand-gray-1 w-96"
   >
     <section class="pb-5">
+      <job-filters-sidebar-prompt />
       <!-- <div class="flex flex-row justify-between">
         <h3 class="my-4 text-base font-semibold">What do you want to do?</h3>
         <div class="flex items-center text-sm">
@@ -13,7 +14,9 @@
           />
         </div>
       </div> -->
-      <job-filters-sidebar-prompt />
+      <accordion header="Skills and Qualifications">
+        <job-filters-sidebar-skills />
+      </accordion>
       <div>
         <accordion header="Degrees">
           <job-filters-sidebar-degrees />
@@ -41,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 
 // import ActionButton from "@/components/Shared/ActionButton.vue";
 import Accordion from "@/components/Shared/Accordion.vue";
@@ -52,6 +55,11 @@ import JobFiltersSidebarDegrees from "@/components/JobResults/JobFiltersSidebar/
 import JobFiltersSidebarOrganizations from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarOrganizations.vue";
 import JobFiltersSidebarJobTypes from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarJobTypes.vue";
 import JobFiltersSidebarPrompt from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarPrompt.vue";
+import JobFiltersSidebarSkills from "@/components/JobResults/JobFiltersSidebar/JobFiltersSidebarSkills.vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+import { key } from "@/store";
+import { UPDATE_SKILLS_SEARCH_TERM } from "@/store/constants";
 //import { useUniqueOrganizations } from "@/store/composables";
 
 // import {
@@ -67,6 +75,7 @@ export default defineComponent({
     // ActionButton,
     JobFiltersSidebarPrompt,
     Accordion,
+    JobFiltersSidebarSkills,
     // JobFiltersSidebarCheckboxGroup,
     JobFiltersSidebarDegrees,
     JobFiltersSidebarOrganizations,
@@ -75,6 +84,16 @@ export default defineComponent({
   // JobFiltersSidebarOrganizations,
   // JobFiltersSidebarJobTypes,
   setup() {
+    const parseSkillsSearchTerm = () => {
+      const route = useRoute(); //invoke the route to get the role from the query params in the URL
+      //console.log("route checking", route);
+      const role = route.query.role || ""; //we put the role data in a const or we return empty
+      const store = useStore(key); // we invoke the Store to update the state through commiting a mutation
+      store.commit(UPDATE_SKILLS_SEARCH_TERM, role); // we call the mutation to update the skillsSearchTerm property inside the state
+    };
+
+    onMounted(parseSkillsSearchTerm); //this will ALWAYS update the function once it's mounted
+
     // const store = useStore(key);
     //const UniqueOrganizations = useUniqueOrganizations(); // we are calling the store to get the unique set of organizations (VueTube, etc)
 

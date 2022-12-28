@@ -8,12 +8,14 @@ import {
   INCLUDE_JOB_BY_ORGANIZATION,
   INCLUDE_JOB_BY_JOB_TYPE,
   INCLUDE_JOB_BY_DEGREE,
+  INCLUDE_JOB_BY_SKILL,
 } from "@/store/constants";
 
 interface IncludeJobGetters {
   INCLUDE_JOB_BY_ORGANIZATION: (job: Job) => boolean;
   INCLUDE_JOB_BY_JOB_TYPE: (job: Job) => boolean;
   INCLUDE_JOB_BY_DEGREE: (job: Job) => boolean;
+  INCLUDE_JOB_BY_SKILL: (job: Job) => boolean;
 }
 
 const getters = {
@@ -31,6 +33,10 @@ const getters = {
     return state.degrees.map((degree) => degree.degree);
   },
   [INCLUDE_JOB_BY_ORGANIZATION]: (state: GlobalState) => (job: Job) => {
+    //first we invoke that getter and provide de state and that getter returns a
+    //new function, and that function accepts the actual argument that we want to pass
+    // and in this case the argument we want to pass is the job which is going to be
+    //inside the function returned by the getter and all this HAS tu return you a boolean
     if (state.selectedOrganizations.length === 0) return true;
     return state.selectedOrganizations.includes(job.organization);
   },
@@ -42,13 +48,19 @@ const getters = {
     if (state.selectedDegrees.length === 0) return true;
     return state.selectedDegrees.includes(job.degree);
   },
+  [INCLUDE_JOB_BY_SKILL]: (state: GlobalState) => (job: Job) => {
+    return job.title
+      .toLocaleLowerCase()
+      .includes(state.skillsSearchTerm.toLocaleLowerCase());
+  },
   [FILTERED_JOBS](state: GlobalState, getters: IncludeJobGetters) {
     // it accepts the VUEXstore state as the 1st argument and a
     // 2nd OPTIONAL argument is all the existing getters
     return state.jobs
       .filter((job) => getters.INCLUDE_JOB_BY_ORGANIZATION(job))
       .filter((job) => getters.INCLUDE_JOB_BY_JOB_TYPE(job))
-      .filter((job) => getters.INCLUDE_JOB_BY_DEGREE(job));
+      .filter((job) => getters.INCLUDE_JOB_BY_DEGREE(job))
+      .filter((job) => getters.INCLUDE_JOB_BY_SKILL(job));
   },
 };
 

@@ -7,6 +7,7 @@ const state = (): GlobalState => {
     isLoggedIn: false,
     jobs: [],
     degrees: [],
+    skillsSearchTerm: "",
     selectedOrganizations: [],
     selectedJobTypes: [],
     selectedDegrees: [],
@@ -16,7 +17,7 @@ const state = (): GlobalState => {
 export default state;
 
 // ======  IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!! IMPORTANT!!!
-// 1) get the PROPERTY on the state
+// 1) get the PROPERTY on the state (also modifiy de GlobalState interface)
 // 1.1) create a constant for the mutation
 // 2) get the MUTATION to modify the PROPERTY (it can ONLY modify 1 property)
 // 2.2) get a constant for the action

@@ -34,7 +34,7 @@
           placeholder="Los Angeles"
           data-test="location-input"
         />
-        <!-- v-model="location" === :value="location" @handle-input="location = $event" -->
+        <!-- v-model="location" === [:value="location" @handle-input="location = $event"] -->
         <!-- <input
           v-model="location"
           type="text"
